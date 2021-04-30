@@ -53,7 +53,8 @@ const dishSchema = new Schema ({
     comments: [ commentSchema ]
 },
 {
-    timestamps : true
+    timestamps : true,
+    usePushEach : true
 });
 
 var Dishes = mongoose.model('Dish',dishSchema);
