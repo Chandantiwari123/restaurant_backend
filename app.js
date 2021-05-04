@@ -37,6 +37,44 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
+
+// Basic Authontication
+
+function auth(req,res,next) {
+    console.log(req.headers);
+
+    var authHeader = req.headers.authorization;
+
+    if(!authHeader) {
+        var err = new Error('You are not authenticated');
+
+        res.setHeader('WWW-Authenticate', 'Basic');
+        err.status = 401;
+        return next(err);
+    }
+
+    var auth = new Buffer(authHeader.split(' ')[1], 'base64').toString().split(':');
+
+    var username = auth[0];
+    var password = auth[1];
+
+    if(username ==='admin' && password === 'password') {
+        next();  // It's mean we will pass it now in next middleware.
+    }
+    else {
+        var err = new Error('You are not authenticated');
+
+        res.setHeader('WWW-Authenticate', 'Basic');
+        err.status = 401;
+        return next(err);  
+    }
+}
+
+
+app.use(auth);
+
+// basic authontication end
+
 app.use(express.static(path.join(__dirname, 'public')));    // there will be your index.html file
 
 app.use('/', routes);

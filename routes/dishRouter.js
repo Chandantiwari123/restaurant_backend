@@ -146,11 +146,11 @@ dishRouter.route('/:dishId/comments')     // It's for all the comments of a spec
     .catch((err) => next(err));
 });
 
-dishRouter.route('/:dishId/comments/:commentId')       //It's only for a specific dish and the dish id will make it specific.
+dishRouter.route('/:dishId/comments/:commentId')       //It's only for a specific comment of a specific dish and the dish id and comment id will make it specific.
 .get((req,res,next) => {
     Dishes.findById(req.params.dishId)
     .then((dish) => {
-        if(dish!=null && dish.comments.id(req.params.commntId) != null) {
+        if(dish!=null && dish.comments.id(req.params.commentId) != null) {
             res.statusCode =200;
             res.setHeader('Content-Type', 'application/json');
             res.json(dish.comments.id(req.params.commntId));
@@ -175,12 +175,12 @@ dishRouter.route('/:dishId/comments/:commentId')       //It's only for a specifi
 .put((req,res,next) => {
     Dishes.findById(req.params.dishId)
     .then((dish) => {
-        if(dish!=null && dish.comments.id(req.params.commntId) != null) {
+        if(dish!=null && dish.comments.id(req.params.commnetId) != null) {
             if(req.body.rating) {
-                dish.comments.id(req.params.commntId).rating = req.body.rating;
+                dish.comments.id(req.params.commentId).rating = req.body.rating;
             }
             if(req.body.comment) {
-                dish.comments.id(req.params.commntId).comment = req.body.comment;
+                dish.comments.id(req.params.commentId).comment = req.body.comment;
             }
         }
         else if (dish == null){
@@ -199,8 +199,8 @@ dishRouter.route('/:dishId/comments/:commentId')       //It's only for a specifi
 .delete((req,res,next) => {
     Dishes.findById(req.params.dishId)
     .then((dish) => {
-        if(dish!=null && dish.comments.id(req.params.commntId) != null) {
-            dish.comments.id(req.params.commntId).remove();
+        if(dish!=null && dish.comments.id(req.params.commentId) != null) {
+            dish.comments.id(req.params.commentId).remove();
             dish.save()
             .then((dish) => {
                 res.statusCode =200;
