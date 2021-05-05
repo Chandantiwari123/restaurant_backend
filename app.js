@@ -4,6 +4,8 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');  // For session.
+var FileStore = require('session-file-store')(session);
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -36,14 +38,24 @@ app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
-app.use(cookieParser('12345-67890-09876-54321'));   // "12345-67890-09876-54321" is a key which can be anything it is needed to restore user signed information.
 
 // Basic Authontication
 
-function auth(req,res,next) {
-    console.log(req.signedCookies);
+//app.use(cookieParser('12345-67890-09876-54321'));   // "12345-67890-09876-54321" is a key which can be anything it is needed to restore user signed information.
 
-    if(!req.signedCookies.user) {       // If Cookies don't have the user information then we authoticate the user.
+app.use(session({                           // Set the session here.
+    name: 'session-id',
+    secret: '12345-67890-09876-54321',
+    saveUninitialized: false,
+    resave: false,
+    store: new FileStore()
+}))
+
+
+function auth(req,res,next) {
+    console.log(req.session);
+
+    if(!req.session.user) {       // If session don't have the user information then we authoticate the user.
 
         var authHeader = req.headers.authorization;
 
@@ -61,7 +73,7 @@ function auth(req,res,next) {
         var password = auth[1];
 
         if(username ==='admin' && password === 'password') {
-            res.cookie('user','admin',{signed: true})  // Now here we store the cookies.
+            req.session.user = 'admin';  // Now here we store the session for username admin.
             next();  // It's mean we will pass it now in next middleware.
         }
         else {
@@ -73,7 +85,7 @@ function auth(req,res,next) {
         }
     }
     else {
-        if(req.signedCookies.user === 'admin') {
+        if(req.session.user === 'admin') {
             next();
         }
         else {
