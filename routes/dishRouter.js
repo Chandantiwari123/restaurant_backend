@@ -161,7 +161,7 @@ dishRouter.route('/:dishId/comments/:commentId')       //It's only for a specifi
             return next(err)    // It will be handeled by error handeler in app.js.
         } 
         else {
-            err = new Error(`Comment {req.params.commentId} not found.`);
+            err = new Error(`Comment ${req.params.commentId} not found.`);
             err.status = 404;
             return next(err)  
         }
