@@ -1,14 +1,16 @@
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var User = require('./models/user');
+var User = require('./models/user');    // requires the model with Passport-Local Mongoose plugged in
 var JwtStrategy = require('passport-jwt').Strategy;
 var ExtractJwt = require('passport-jwt').ExtractJwt;
-var jwt = require('jsonwebtoken');
+var jwt = require('jsonwebtoken');      // used to create, sign, and verify tokens
 
 
 var config = require('./config');
 
-passport.use(new LocalStrategy(User.authenticate()));
+passport.use(new LocalStrategy(User.authenticate()));   // use static authenticate method of model in LocalStrategy
+
+// use static serialize and deserialize of model for passport session support
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
