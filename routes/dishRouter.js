@@ -101,7 +101,7 @@ dishRouter.route('/:dishId/comments')     // It's for all the comments of a spec
             res.json(dish.comments);
         }
         else {
-            err = new Error(`Dish {req.params.dishId} not found.`);
+            let err = new Error(`Dish {req.params.dishId} not found.`);
             err.status = 404;
             return next(err)    // It will be handeled by error handeler in app.js.
         }
@@ -126,7 +126,7 @@ dishRouter.route('/:dishId/comments')     // It's for all the comments of a spec
             }, (err) => next(err));
         }
         else {
-            err = new Error('Dish ' + req.params.dishId + ' not found');
+            let err = new Error('Dish ' + req.params.dishId + ' not found');
             err.status = 404;
             return next(err);
         }
@@ -152,7 +152,7 @@ dishRouter.route('/:dishId/comments')     // It's for all the comments of a spec
             }, (err) => next(err));    
         }
         else {
-            err = new Error(`Dish {req.params.dishId} not found.`);
+            let err = new Error(`Dish {req.params.dishId} not found.`);
             err.status = 404;
             return next(err)    // It will be handeled by error handeler in app.js.
         }
@@ -172,12 +172,12 @@ dishRouter.route('/:dishId/comments/:commentId')       //It's only for a specifi
             res.json(dish.comments.id(req.params.commntId));
         }
         else if (dish == null){
-            err = new Error(`Dish {req.params.dishId} not found.`);
+            let err = new Error(`Dish {req.params.dishId} not found.`);
             err.status = 404;
             return next(err)    // It will be handeled by error handeler in app.js.
         } 
         else {
-            err = new Error(`Comment ${req.params.commentId} not found.`);
+            let err = new Error(`Comment ${req.params.commentId} not found.`);
             err.status = 404;
             return next(err)  
         }
@@ -211,18 +211,18 @@ dishRouter.route('/:dishId/comments/:commentId')       //It's only for a specifi
             },(err) => next(err))
         }
         else if (dish == null){
-            err = new Error(`Dish {req.params.dishId} not found.`);
+            let err = new Error(`Dish {req.params.dishId} not found.`);
             err.status = 404;
             return next(err)    // It will be handeled by error handeler in app.js.
         } 
         else if (!dish.comments.id(req.params.commentId).author.equals(req.user._id))
         {
-            err = new Error("You are not authorized for this operation. ");
+            let err = new Error("You are not authorized for this operation. ");
             err.status = 404;
             return next(err);
         }
         else {
-            err = new Error(`Comment {req.params.commentId} not found.`);
+            let err = new Error(`Comment {req.params.commentId} not found.`);
             err.status = 404;
             return next(err)  
         }
@@ -248,18 +248,18 @@ dishRouter.route('/:dishId/comments/:commentId')       //It's only for a specifi
             },(err) => next(err))
         }
         else if (dish == null){
-            err = new Error(`Dish {req.params.dishId} not found.`);
+            let err = new Error(`Dish {req.params.dishId} not found.`);
             err.status = 404;
             return next(err)    // It will be handeled by error handeler in app.js.
         } 
         else if (!dish.comments.id(req.params.commentId).author.equals(req.user._id))
         {
-            err = new Error("You are not authorized for this operation. ");
+            let err = new Error("You are not authorized for this operation. ");
             err.status = 404;
             return next(err);
         }
         else {
-            err = new Error(`Comment ${req.params.commentId} not found.`);
+            let err = new Error(`Comment ${req.params.commentId} not found.`);
             err.status = 404;
             return next(err)  
         }

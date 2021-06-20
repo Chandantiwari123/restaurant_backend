@@ -2,12 +2,12 @@ var express = require('express');
 var path = require('path');
 var favicon = require('static-favicon');
 var logger = require('morgan');
-var cookieParser = require('cookie-parser');
+//var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var session = require('express-session');  // For session.
-var FileStore = require('session-file-store')(session);
+//var session = require('express-session');  // For session.
+//var FileStore = require('session-file-store')(session);
 var passport = require('passport');
-var authenticate = require('./authenticate');
+//var authenticate = require('./authenticate');
 var config = require('./config');
 
 var routes = require('./routes/index');
@@ -22,7 +22,7 @@ var uploadRouter = require('./routes/uploadRouter');
 
 const mongoose = require('mongoose');
 
-const Dishes = require('./models/dishes');      //require dishes schema.
+//const Dishes = require('./models/dishes');      //require dishes schema.
 
 const url = config.mongoUrl;
 const connect = mongoose.connect(url);
